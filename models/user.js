@@ -1,5 +1,12 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+
+function hashPassword(password) {
+  const saltRounds = 10;
+  return bcrypt.hashSync(password, saltRounds);
+}
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -23,6 +30,12 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
       },
     },
     {
@@ -30,6 +43,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
       tableName: "users",
       paranoid: true,
+      hooks: {
+        beforeCreate: (user, options) => {
+          const hashedPassword = hashPassword(user.password);
+          user.password = hashedPassword;
+        },
+      },
     }
   );
   return User;

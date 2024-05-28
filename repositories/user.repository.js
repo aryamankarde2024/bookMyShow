@@ -1,43 +1,48 @@
 const db = require("../models/index");
-const { User, Post } = db;
-const getUsers = async () => {
-  try {
-    const users = await User.findAll();
-    return users;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Could not retrieve users");
-  }
-};
+const { User } = db;
 
 async function createUser(userPayload) {
   try {
-    const newUser = await User.create(userPayload);
+    const newUser = await User.create(userPayload, {
+      fields: ["firstName", "lastName", "email"],
+    });
     return newUser;
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
     throw error;
   }
 }
 
-async function getUserWithPosts(userId) {
+async function updateUser(userPayload) {
   try {
-    const user = await User.findByPk(userId, {
-      include: {
-        model: Post, 
-        as: 'posts'
-      }
+    const updatedUser = await User.update(userPayload, {
+      where: {
+        email: userPayload.email,
+      },
     });
-    console.log(user);
-    return user;
+    return updatedUser;
   } catch (error) {
-    console.error('Error fetching user with posts:', error);
+    console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
+async function deleteUser(id) {
+  try {
+    const updatedUser = await User.destroy({
+      where: {
+        id,
+      },
+    });
+    return updatedUser;
+  } catch (error) {
+    console.error("Error deleting user:", error);
     throw error;
   }
 }
 
 module.exports = {
-  getUsers,
   createUser,
-  getUserWithPosts
+  updateUser,
+  deleteUser,
 };
