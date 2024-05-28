@@ -25,6 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       startsAt: {
         type: DataTypes.DATE,
       },
+      premium: {
+        type: DataTypes.INTEGER,
+      },
+      diamond: {
+        type: DataTypes.INTEGER,
+      },
+      gold: {
+        type: DataTypes.INTEGER,
+      },
     },
     {
       sequelize,

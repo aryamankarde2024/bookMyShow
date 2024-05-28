@@ -14,11 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      screenId: {
-        type: DataTypes.INTEGER,
-      },
       seatNumber: {
         type: DataTypes.STRING,
+      },
+      type: {
+        type: Sequelize.ENUM,
+        values: ["premium", "diamond", "gold"],
       },
     },
     {

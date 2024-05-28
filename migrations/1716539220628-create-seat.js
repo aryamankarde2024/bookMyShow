@@ -9,15 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      screenId: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: "id",
-          model: "screens",
-        },
-      },
       seatNumber: {
         type: Sequelize.STRING,
+      },
+      type: {
+        type: Sequelize.ENUM,
+        values: ["premium", "diamond", "gold"],
       },
     });
   },
