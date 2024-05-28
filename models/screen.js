@@ -6,6 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       Screen.hasMany(models.Seat, { foreignKey: "screenId" });
       Screen.hasMany(models.Show, { foreignKey: "screenId" });
       Screen.belongsTo(models.Theater, { foreignKey: "theaterId" });
+
+      Screen.belongsToMany(models.Seat, {
+        through: "screen_seats",
+        foreignKey: "screenId",
+        otherKey: "seatId",
+      });
     }
   }
   Screen.init(

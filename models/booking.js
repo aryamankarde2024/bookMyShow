@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       Booking.belongsTo(models.User, { foreignKey: "userId" });
       Booking.belongsTo(models.Show, { foreignKey: "showId" });
       Booking.belongsTo(models.OptionMaster, { foreignKey: "status" });
-      Booking.hasMany(models.BookingSeat, { foreignKey: "bookingId" });
+
+      Booking.belongsToMany(models.Seat, {
+        through: "booking_seats",
+        foreignKey: "bookingId",
+        otherKey: "seatId",
+      });
     }
   }
   Booking.init(
