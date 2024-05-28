@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "OptionMaster",
+      tableName: "option_master",
       timestamps: false,
     }
   );

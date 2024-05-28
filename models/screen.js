@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Screen extends Model {
     static associate(models) {
       Screen.hasMany(models.Seat, { foreignKey: "screenId" });
+      Screen.hasMany(models.Show, { foreignKey: "screenId" });
       Screen.belongsTo(models.Theater, { foreignKey: "theaterId" });
-      Screen.belongsToMany(models.Show, { foreignKey: "screenId" });
     }
   }
   Screen.init(
