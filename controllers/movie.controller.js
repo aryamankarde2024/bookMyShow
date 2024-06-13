@@ -83,6 +83,60 @@ async function fetchUpcomingMovies(_, res) {
   }
 }
 
+// async function fetchAllAvailableMovies(req, res) {
+//   try {
+//     const result = await Movie.findAll({
+//       include: [
+//         {
+//           model: Show,
+//           where: {
+//             startTime: {
+//               [Op.gt]: new Date(),
+//             },
+//           },
+//           include: [
+//             {
+//               model: Screen,
+//               attributes: {
+//                 include: [
+//                   [
+//                     sequelize.literal(`(
+//                                 SELECT (SELECT COUNT(seatId) FROM screenxseats WHERE screenId = \`Shows->Screen\`.\`id\`) - COUNT(bookedSeats.id)
+//                                   FROM
+//                                     bookings
+//                                       INNER JOIN
+//                                     bookingxseats AS bookedSeats ON bookings.showId = \`Shows\`.\`id\` AND bookings.id = bookedSeats.bookingId
+//                                       INNER JOIN
+//                                     screenxseats AS screenSeats
+//                                       ON screenSeats.screenId = \`Shows->Screen\`.\`id\` AND bookedSeats.seatId = screenSeats.seatId
+//                             )`),
+//                     "availableSeats",
+//                   ],
+//                 ],
+//               },
+//               include: [Theater],
+//             },
+//           ],
+//           attributes: {
+//             include: [
+//               [
+//                 sequelize.literal(`(
+//                   SELECT ADDTIME(Shows.startTime, SEC_TO_TIME(Movie.duration * 60))
+//                 )`),
+//                 "endTime",
+//               ],
+//             ],
+//           },
+//         },
+//       ],
+//     });
+//     res.json(result);
+//   } catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// }
+
 module.exports = {
   insertMovie,
   modifyMovie,
